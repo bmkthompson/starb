@@ -13,7 +13,6 @@ def engle_granger_test(series1, series2, significance=0.05):
     beta = model.params[1]
 
     residuals = model.resid
-
     adf_result = adfuller(residuals)
     p_value = adf_result[1]
     is_cointegrated = p_value < significance
