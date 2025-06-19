@@ -53,7 +53,7 @@ Example Output (top cointegrated pairs)
 
 Next Development Steps
 
-- Rolling-window cointegration stability ✅ (integrated 06-2025)
+- Rolling-window cointegration stability ✅ (implemented 06-2025)
 - Transaction cost simulation
 - Portfolio allocation logic
 - Live trading capability
