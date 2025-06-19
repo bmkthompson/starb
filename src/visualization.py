@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 
-def plot_spread_and_zscore(spread, zscore, entry_threshold=1.0, exit_threshold=0.25):
+def plot_spread_and_zscore(spread, zscore, entry_threshold=1.0, exit_threshold=0.5):
     fig, ax1 = plt.subplots(figsize=(12,6))
-
     ax1.plot(spread.index, spread, label='Spread', color='blue')
     ax1.set_ylabel('Spread')
     ax1.legend(loc='upper left')
