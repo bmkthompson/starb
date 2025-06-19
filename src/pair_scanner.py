@@ -1,17 +1,14 @@
 import itertools
 from src.data_loader import get_price_data
 from src.cointegration import engle_granger_test
-from src.signal_generator import calculate_spread, calculate_zscore, generate_signals
+from src.signal_generator import generate_signals_rolling_beta
 from src.backtester import backtest
 from src.performance import calculate_performance
 
 def scan_pairs(tickers, start_date, end_date):
     results = []
 
-    data = {}
-    for ticker in tickers:
-        data[ticker] = get_price_data(ticker, start_date, end_date)
-
+    data = {ticker: get_price_data(ticker, start_date, end_date) for ticker in tickers}
     pairs = list(itertools.combinations(tickers, 2))
 
     for ticker1, ticker2 in pairs:
@@ -21,10 +18,8 @@ def scan_pairs(tickers, start_date, end_date):
         coint_result = engle_granger_test(series1, series2)
 
         if coint_result['is_cointegrated']:
-            spread = calculate_spread(series1, series2, coint_result['beta'])
-            zscore = calculate_zscore(spread)
-            signals = generate_signals(zscore, entry_threshold=1.0, exit_threshold=0.25)
-            backtest_results = backtest(series1, series2, coint_result['beta'], signals)
+            signals, spread, zscore, betas = generate_signals_rolling_beta(series1, series2)
+            backtest_results = backtest(series1, series2, betas, signals)
             performance = calculate_performance(backtest_results)
 
             results.append({
